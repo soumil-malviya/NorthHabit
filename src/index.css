@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Theme-able CSS Custom Properties for user customizability (Elegant Dark Theme) */
+  --bg-primary: #040405;
+  --bg-secondary: #0c0c0e;
+  --bg-tertiary: #111114;
+  
+  /* Primary accents (vibrant blue & premium indigo glows from global design) */
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #2563eb;
+  --accent-primary-glow: rgba(59, 130, 246, 0.35);
+  
+  /* Secondary accents (vibrant premium Indigo) */
+  --accent-secondary: #6366f1;
+  --accent-secondary-hover: #4f46e5;
+  --accent-secondary-glow: rgba(99, 102, 241, 0.25);
+  
+  /* Success states (teal/green) */
+  --state-success: #10b981;
+  --state-success-glow: rgba(16, 185, 129, 0.25);
+  
+  /* Warning/Fire states (orange-red / flame) */
+  --state-warning: #f97316;
+  --state-warning-glow: rgba(249, 115, 22, 0.25);
+  --state-danger: #ef4444;
+  
+  /* Typography and Neutral hues */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --border-light: rgba(255, 255, 255, 0.05);
+  
+  /* Glassmorphic details for premium elegant dark feel */
+  --glass-background: rgba(10, 10, 12, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.035);
+  --glass-blur: 24px;
+  
+  /* Bouncy physics animation curve */
+  --bounce-cubic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --smooth-transition: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light mode overrides that adapt existing variables seamlessly */
+.light-theme {
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-light: rgba(15, 23, 42, 0.06);
+  --glass-background: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(15, 23, 42, 0.05);
+  --glass-blur: 24px;
+}
+
+/* Apple Liquid Glass styling for realistic specular highlight and glossy refraction */
+.liquid-glass {
+  backdrop-filter: blur(var(--glass-blur)) saturate(190%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(190%);
+  background-color: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.08), 
+    0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s var(--smooth-transition);
+}
+
+.light-theme .liquid-glass {
+  box-shadow: 
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.9), 
+    0 10px 30px -10px rgba(15, 23, 42, 0.08);
+}
+
+/* Base resets & styled defaults */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.4s var(--smooth-transition), color 0.4s var(--smooth-transition);
+}
+
+/* Custom Scrollbar for sleek dashboard experience */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--glass-background);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+}
+
+.light-theme .glass-panel {
+  box-shadow: 0 10px 25px 0 rgba(15, 23, 42, 0.05);
+}
+
+.glass-panel-hover {
+  transition: border-color 0.3s var(--smooth-transition), 
+              box-shadow 0.3s var(--smooth-transition), 
+              background-color 0.3s var(--smooth-transition),
+              transform 0.3s var(--bounce-cubic);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 16px 45px 0 rgba(59, 130, 246, 0.08);
+  background: rgba(18, 18, 22, 0.8);
+  transform: translateY(-2px);
+}
+
+/* Bouncy checkbox and togglers details */
+.bouncy-checkbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.bouncy-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border-light);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.4s var(--bounce-cubic), 
+              background-color 0.3s var(--smooth-transition), 
+              border-color 0.3s var(--smooth-transition),
+              box-shadow 0.3s var(--smooth-transition);
+}
+
+.light-theme .bouncy-checkbox {
+  border-color: #cbd5e1; /* slate-330 for high contrast */
+  background-color: #f8fafc; /* light secondary/card background */
+}
+
+.bouncy-checkbox:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-primary-glow);
+}
+
+.light-theme .bouncy-checkbox:hover {
+  border-color: #94a3b8;
+  background-color: #e2e8f0;
+}
+
+.bouncy-checkbox:checked {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  transform: scale(1.1);
+  box-shadow: 0 0 12px var(--accent-primary-glow);
+}
+
+.light-theme .bouncy-checkbox:checked {
+  background-color: #2563eb; /* True indigo/blue check in light Mode */
+  border-color: #2563eb;
+}
+
+.bouncy-checkbox:active {
+  transform: scale(0.85);
+}
+
+/* Custom Check icon path animation inside the check box */
+.checkmark-svg {
+  position: absolute;
+  pointer-events: none;
+  stroke: #ffffff; /* Crisp pure white checked tick marks for absolute readability in all themes */
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.35s var(--bounce-cubic) 0.05s;
+}
+
+.bouncy-checkbox:checked + .checkmark-svg {
+  stroke-dashoffset: 0;
+}
+
+/* Subtle animation when new item is added to the list */
+@keyframes itemEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-entrance {
+  animation: itemEntrance 0.5s var(--bounce-cubic) forwards;
+}
+
+/* Flame custom pulse animation for active streaks */
+@keyframes activeFlame {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 1px rgba(249, 115, 22, 0.4));
+  }
+  50% {
+    transform: scale(1.15) rotate(4deg);
+    filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.75));
+  }
+}
+
+.active-streak-flame {
+  animation: activeFlame 2.2s infinite ease-in-out;
+}
+
+/* Status dots glow */
+.status-dot-active {
+  box-shadow: 0 0 8px var(--state-success);
+}
+
+/* Hide scrollbars for friendly modern tab swipe bars while supporting touch swipe */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Soft pulse for interactive actions */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(0.98); }
+}
+.cozy-pulse {
+  animation: softPulse 3s infinite ease-in-out;
+}
+
+/* Category gradients for subtle panel backdrops */
+.bg-gradient-category-health {
+  background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 60%);
+}
+.bg-gradient-category-fitness {
+  background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.08), transparent 60%);
+}
+.bg-gradient-category-mindfulness {
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.08), transparent 60%);
+}
+.bg-gradient-category-work {
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 60%);
+}
+.bg-gradient-category-creative {
+  background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.08), transparent 60%);
+}

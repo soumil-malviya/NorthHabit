@@ -1,0 +1,6 @@
+{
+  "name": "Personal Habit Tracker",
+  "description": "A sleek, lightweight, interactive habit tracker designed for home hosting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
