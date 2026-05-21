@@ -17,3 +17,31 @@ export interface StreakStats {
   currentStreak: number;
   longestStreak: number;
 }
+
+export interface Todo {
+  id: string;
+  title: string;
+  description: string;
+  scheduledDate: string | null;
+  completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PomodoroSettings {
+  workMinutes: number;
+  breakMinutes: number;
+  longBreakMinutes: number;
+  sessionsBeforeLongBreak: number;
+}
+
+export type ThemeMode = 'light' | 'dark';
+
+export type TreeSpecies = 'pine' | 'oak' | 'birch' | 'maple';
+
+export interface ForestTree {
+  id: string;
+  species: TreeSpecies;
+  plantedAt: string;
+  durationMinutes: number;
+}

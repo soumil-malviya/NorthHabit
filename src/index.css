@@ -8,15 +8,14 @@
   --bg-secondary: #0c0c0e;
   --bg-tertiary: #111114;
   
-  /* Primary accents (vibrant blue & premium indigo glows from global design) */
-  --accent-primary: #3b82f6;
-  --accent-primary-hover: #2563eb;
-  --accent-primary-glow: rgba(59, 130, 246, 0.35);
+  /* NorthHabit — arctic cyan & deep teal */
+  --accent-primary: #0891b2;
+  --accent-primary-hover: #0e7490;
+  --accent-primary-glow: rgba(8, 145, 178, 0.35);
   
-  /* Secondary accents (vibrant premium Indigo) */
-  --accent-secondary: #6366f1;
-  --accent-secondary-hover: #4f46e5;
-  --accent-secondary-glow: rgba(99, 102, 241, 0.25);
+  --accent-secondary: #164e63;
+  --accent-secondary-hover: #155e75;
+  --accent-secondary-glow: rgba(22, 78, 99, 0.3);
   
   /* Success states (teal/green) */
   --state-success: #10b981;
@@ -79,7 +78,8 @@
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   transition: background-color 0.4s var(--smooth-transition), color 0.4s var(--smooth-transition);
@@ -276,4 +276,113 @@ body {
 }
 .bg-gradient-category-creative {
   background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.08), transparent 60%);
+}
+
+/* Modern calendar */
+.cal-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  color: var(--text-secondary);
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.12);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cal-nav-btn:hover {
+  background: rgba(59, 130, 246, 0.18);
+  color: var(--accent-primary);
+  transform: scale(1.05);
+}
+
+.cal-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.cal-day-default {
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.cal-day-default:hover {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.cal-day-today {
+  background: rgba(59, 130, 246, 0.12);
+  border: 2px solid rgba(59, 130, 246, 0.35);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+.cal-day-selected {
+  background: linear-gradient(145deg, #0891b2, #164e63);
+  border: none;
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.45);
+  transform: scale(1.02);
+}
+
+/* Desktop sidebar — icon rail always visible; labels on hover */
+@media (min-width: 1024px) {
+  .sidebar-desktop .sidebar-nav-link {
+    padding: 0.625rem;
+    justify-content: center;
+    width: 2.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sidebar-desktop:hover .sidebar-nav-link {
+    padding: 0.625rem 0.75rem;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .sidebar-logo-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .sidebar-desktop:hover .sidebar-logo-wrap {
+    justify-content: flex-start;
+  }
+
+  .sidebar-logo-wrap .brand-logo {
+    justify-content: center;
+    gap: 0;
+    width: 2.5rem;
+  }
+
+  .sidebar-desktop:hover .sidebar-logo-wrap .brand-logo {
+    justify-content: flex-start;
+    gap: 0.75rem;
+    width: auto;
+  }
+
+  .sidebar-streak-compact {
+    display: flex;
+  }
+
+  .sidebar-user-expanded {
+    display: none;
+  }
+
+  .sidebar-desktop:hover .sidebar-streak-compact {
+    display: none;
+  }
+
+  .sidebar-desktop:hover .sidebar-user-expanded {
+    display: flex;
+  }
+}
+
+.focus-forest svg {
+  display: block;
 }
