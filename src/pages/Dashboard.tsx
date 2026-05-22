@@ -68,6 +68,7 @@ export default function Dashboard() {
   const [newHabitCategory, setNewHabitCategory] = useState<CategoryType>('health');
   const [newHabitFrequency, setNewHabitFrequency] = useState<FrequencyType>('daily');
   const [newHabitDifficulty, setNewHabitDifficulty] = useState<DifficultyType>('easy');
+  const [newHabitTargetMinutes, setNewHabitTargetMinutes] = useState(10);
   const [formError, setFormError] = useState('');
 
   // Past 7 Days List (oldest on left, today on right)
@@ -101,6 +102,8 @@ export default function Dashboard() {
       return;
     }
 
+    const minutes = Math.max(1, Math.min(240, Math.round(newHabitTargetMinutes)));
+
     const newHabit: Habit = {
       id: `habit-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       name: newHabitName.trim(),
@@ -108,6 +111,7 @@ export default function Dashboard() {
       category: newHabitCategory,
       frequency: newHabitFrequency,
       difficulty: newHabitDifficulty,
+      targetMinutes: minutes,
       createdAt: getLocalDateString(0),
       logs: []
     };
@@ -120,6 +124,7 @@ export default function Dashboard() {
     setNewHabitCategory('health');
     setNewHabitFrequency('daily');
     setNewHabitDifficulty('easy');
+    setNewHabitTargetMinutes(10);
     setFormError('');
     setIsAddingHabit(false);
   };
@@ -147,6 +152,24 @@ export default function Dashboard() {
       }
       return habit;
     }));
+  };
+
+  const getHabitTargetMinutes = (habit: Pick<Habit, 'targetMinutes'>) => {
+    if (typeof habit.targetMinutes === 'number' && Number.isFinite(habit.targetMinutes)) {
+      return Math.max(1, Math.min(240, Math.round(habit.targetMinutes)));
+    }
+    return 10;
+  };
+
+  const handleUpdateTargetMinutes = (habitId: string, minutes: number) => {
+    const next = Math.max(1, Math.min(240, Math.round(minutes || 1)));
+    setHabits(prev =>
+      prev.map(habit =>
+        habit.id === habitId
+          ? { ...habit, targetMinutes: next }
+          : habit,
+      ),
+    );
   };
 
   // ----------------------------------------------------
@@ -278,9 +301,7 @@ export default function Dashboard() {
     let mins = 0;
     habits.forEach(h => {
       if (h.logs.includes(dayStr)) {
-        if (h.difficulty === 'easy') mins += 10;
-        else if (h.difficulty === 'medium') mins += 20;
-        else if (h.difficulty === 'hard') mins += 45;
+        mins += getHabitTargetMinutes(h);
       }
     });
     return mins;
@@ -297,7 +318,7 @@ export default function Dashboard() {
 
       habits.forEach(h => {
         if (h.logs.includes(dateStr)) {
-          const weight = h.difficulty === 'easy' ? 10 : h.difficulty === 'medium' ? 20 : 45;
+          const weight = getHabitTargetMinutes(h);
           if (h.category === 'health') health += weight;
           else if (h.category === 'fitness') fitness += weight;
           else if (h.category === 'mindfulness') mindfulness += weight;
@@ -350,7 +371,7 @@ export default function Dashboard() {
 
     habits.forEach(h => {
       if (h.logs.includes(selectedUsageDateStr)) {
-        const weight = h.difficulty === 'easy' ? 10 : h.difficulty === 'medium' ? 20 : 45;
+        const weight = getHabitTargetMinutes(h);
         if (h.category === 'health') health += weight;
         else if (h.category === 'fitness') fitness += weight;
         else if (h.category === 'mindfulness') mindfulness += weight;
@@ -822,9 +843,30 @@ export default function Dashboard() {
               </div>
             </div>
 
+            <div>
+              <label className="block text-[11px] font-bold dark:text-slate-400 text-slate-600 mb-1 uppercase tracking-wider">
+                Time required
+              </label>
+              <label className="flex items-center gap-2 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300 dark:border-white/5 py-2 px-3 rounded-xl">
+                <Clock className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                <input
+                  type="number"
+                  min={1}
+                  max={240}
+                  value={newHabitTargetMinutes}
+                  onChange={(e) => setNewHabitTargetMinutes(Number(e.target.value))}
+                  className="w-full bg-transparent text-xs font-semibold text-slate-850 dark:text-white focus:outline-none"
+                  id="form-habit-target-minutes"
+                />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  min
+                </span>
+              </label>
+            </div>
+
             {/* Intensity levels selector */}
             <div>
-              <label className="block text-[11px] font-bold dark:text-slate-400 text-slate-600 mb-1 uppercase tracking-wider">Routine Difficulty</label>
+              <label className="block text-[11px] font-bold dark:text-slate-400 text-slate-600 mb-1 uppercase tracking-wider">Difficulty tag</label>
               <div className="grid grid-cols-3 gap-2" id="form-habit-difficulty-radios">
                 {(['easy', 'medium', 'hard'] as DifficultyType[]).map((diff) => (
                   <button
@@ -1002,10 +1044,25 @@ export default function Dashboard() {
                   </div>
 
                   {/* Card Actions / Details Strip */}
-                  <div className="flex items-center justify-between text-[10px] dark:text-slate-500 text-slate-600 font-mono">
-                    <span className="flex items-center gap-1 opacity-80">
-                      <TrendingUp className="w-3 h-3 dark:text-cyan-400 text-cyan-600" /> Max streak: {habit.longestStreak} days
-                    </span>
+                  <div className="flex items-center justify-between gap-2 text-[10px] dark:text-slate-500 text-slate-600 font-mono">
+                    <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                      <span className="flex items-center gap-1 opacity-80">
+                        <TrendingUp className="w-3 h-3 dark:text-cyan-400 text-cyan-600" /> Max streak: {habit.longestStreak} days
+                      </span>
+                      <label className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-200/50 dark:bg-slate-950/30 border border-slate-300 dark:border-white/5">
+                        <Clock className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
+                        <input
+                          type="number"
+                          min={1}
+                          max={240}
+                          value={getHabitTargetMinutes(habit)}
+                          onChange={(e) => handleUpdateTargetMinutes(habit.id, Number(e.target.value))}
+                          className="w-10 bg-transparent text-[10px] font-bold text-slate-700 dark:text-slate-200 focus:outline-none"
+                          aria-label={`Target minutes for ${habit.name}`}
+                        />
+                        <span>m</span>
+                      </label>
+                    </div>
                     {deletingHabitId === habit.id ? (
                       <div className="flex items-center gap-1.5 animate-entrance">
                         <span className="text-[9px] text-red-500 dark:text-red-400 font-bold uppercase tracking-wider mr-1">Delete?</span>
@@ -1207,7 +1264,7 @@ export default function Dashboard() {
                         />
                       )}
 
-                      {/* Base fallback tiny block if log checked without difficulty calculation yet */}
+                      {/* Base fallback tiny block if a logged routine has no minutes yet */}
                       {dayData.total === 0 && dayData.total > 0 && (
                         <div className="w-full h-1 bg-slate-400 dark:bg-slate-600" />
                       )}

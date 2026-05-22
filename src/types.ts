@@ -9,6 +9,7 @@ export interface Habit {
   category: CategoryType;
   frequency: FrequencyType;
   difficulty: DifficultyType;
+  targetMinutes: number;
   logs: string[]; // List of YYYY-MM-DD date strings when completed
   createdAt: string;
 }
