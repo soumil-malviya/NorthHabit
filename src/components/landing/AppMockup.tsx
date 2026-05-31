@@ -59,12 +59,10 @@ export function AppMockup({ mouseX = 0, mouseY = 0 }: AppMockupProps) {
         rotateX: mouseY * 0.4,
         rotateY: mouseX * 0.4,
       }}
-      className="relative w-full max-w-[320px] sm:max-w-[360px] mx-auto perspective-[1200px]"
+      className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto perspective-[1200px]"
     >
-      <div className="absolute -inset-6 rounded-[2.5rem] bg-cyan-500/20 blur-3xl opacity-60 landing-glow-orb" />
-
-      <div className="landing-glass rounded-[2rem] p-3 sm:p-4 shadow-2xl relative">
-        <div className="rounded-[1.5rem] overflow-hidden bg-[var(--bg-tertiary)] border border-[var(--glass-border)]">
+      <div className="landing-product-preview relative">
+        <div className="rounded-[1.65rem] overflow-hidden bg-[var(--bg-tertiary)] border border-[var(--glass-border)]">
           <div className="px-4 py-3 flex items-center justify-between border-b border-[var(--border-light)]">
             <div className="flex gap-1.5">
               {SLIDES.map((s, i) => (
@@ -84,7 +82,7 @@ export function AppMockup({ mouseX = 0, mouseY = 0 }: AppMockupProps) {
             </span>
           </div>
 
-          <div className="p-4 sm:p-5 min-h-[220px]">
+          <div className="p-4 sm:p-5 min-h-[240px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={slide.id}
@@ -93,8 +91,8 @@ export function AppMockup({ mouseX = 0, mouseY = 0 }: AppMockupProps) {
                 exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-600/15 flex items-center justify-center">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--surface-muted)] border border-[var(--border-light)] flex items-center justify-center">
                     <SlideIcon className="w-4 h-4 text-cyan-500" />
                   </div>
                   <h3 className="font-semibold text-sm">{slide.title}</h3>
@@ -103,7 +101,7 @@ export function AppMockup({ mouseX = 0, mouseY = 0 }: AppMockupProps) {
                   {slide.items.map((item, i) => (
                     <li
                       key={item}
-                      className="flex items-center gap-3 text-sm text-[var(--text-secondary)] py-1.5 px-2 rounded-xl bg-white/[0.02] light-theme:bg-slate-900/[0.03]"
+                      className="flex items-center gap-3 text-sm text-[var(--text-secondary)] py-2 px-2.5 rounded-xl bg-[var(--surface-muted)]"
                     >
                       <span
                         className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 ${

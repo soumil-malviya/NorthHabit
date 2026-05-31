@@ -79,10 +79,10 @@ export default function TodoPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <header className="pb-6 mb-6 border-b border-slate-200 dark:border-white/5">
-        <h2 className="text-2xl font-extrabold tracking-tight dark:text-white text-slate-850 flex items-center gap-2">
+        <h1 className="text-2xl font-extrabold tracking-tight dark:text-white text-slate-850 flex items-center gap-2">
           <ListTodo className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
           To‑Do
-        </h2>
+        </h1>
         <p className="text-sm text-slate-500 mt-1">Capture tasks, schedule them, and clear your list</p>
       </header>
 

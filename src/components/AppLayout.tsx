@@ -65,6 +65,7 @@ export function AppLayout() {
 
         <div className="app-shell-content w-full lg:flex lg:items-stretch">
         <Sidebar
+          habits={habits}
           mobileOpen={mobileOpen}
           onMobileClose={() => setMobileOpen(false)}
           onMobileOpen={() => setMobileOpen(true)}

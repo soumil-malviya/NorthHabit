@@ -54,10 +54,10 @@ export default function CalendarPage() {
   return (
     <div className="max-w-5xl mx-auto">
       <header className="pb-5 border-b border-slate-200 dark:border-white/5 mb-6">
-        <h2 className="text-xl font-extrabold tracking-tight dark:text-white text-slate-850 flex items-center gap-2">
+        <h1 className="text-xl font-extrabold tracking-tight dark:text-white text-slate-850 flex items-center gap-2">
           <CalendarIcon className="w-5 h-5 text-cyan-500" />
           Calendar
-        </h2>
+        </h1>
         <p className="text-xs text-slate-500 mt-0.5">
           Habits completed and scheduled to‑dos at a glance
         </p>

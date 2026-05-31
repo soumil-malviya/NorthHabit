@@ -38,7 +38,7 @@ export function OnboardingFlow() {
   const Icon = card.icon;
 
   return (
-    <section ref={ref} className="py-20 sm:py-28 px-4 sm:px-6" id="onboarding">
+    <section ref={ref} className="landing-section relative z-10 scroll-mt-28 py-20 sm:py-28 px-4 sm:px-6" id="onboarding">
       <div className="max-w-3xl mx-auto text-center mb-10">
         <motion.p
           initial={{ opacity: 0 }}

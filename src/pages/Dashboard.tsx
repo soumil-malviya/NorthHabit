@@ -19,8 +19,6 @@ import {
   Clock, 
   Timer,
   ArrowUpRight, 
-  Download, 
-  Upload,
   AlertCircle,
   ListPlus,
 } from 'lucide-react';
@@ -39,11 +37,15 @@ import {
   getCategoryIcon,
 } from '../lib/categoryStyles';
 import { BRAND } from '../constants/brand';
+import { DataPortabilityPanel } from '../components/DataPortabilityPanel';
+import { useLatency } from '../hooks/useLatency';
+import { MinuteStepper } from '../components/MinuteStepper';
 
 export default function Dashboard() {
   const { username, setUsername, maxStreak, theme, toggleTheme } =
     useOutletContext<AppOutletContext>();
   const location = useLocation();
+  const network = useLatency();
 
   // ----------------------------------------------------
   // States
@@ -59,7 +61,6 @@ export default function Dashboard() {
   const [isHeatmapExpanded, setIsHeatmapExpanded] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [deletingHabitId, setDeletingHabitId] = useState<string | null>(null);
-  const [latency, setLatency] = useState(14);
 
   // Form fields state
   const [isAddingHabit, setIsAddingHabit] = useState(false);
@@ -80,18 +81,6 @@ export default function Dashboard() {
   // ----------------------------------------------------
   // Effects
   // ----------------------------------------------------
-  // Simulate latency fluctuations (between 11ms and 19ms)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLatency(prev => {
-        const dev = Math.random() > 0.5 ? 1 : -1;
-        const next = prev + dev;
-        return next >= 10 && next <= 25 ? next : prev;
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   // ----------------------------------------------------
   // Interactive Actions
   // ----------------------------------------------------
@@ -250,40 +239,6 @@ export default function Dashboard() {
   }, [habits]);
 
   // ----------------------------------------------------
-  // Backup / Import functions for self-hosting safety
-  // ----------------------------------------------------
-  const handleExportData = () => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(habits, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `habit-tracker-backup-${getLocalDateString(0)}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-  };
-
-  const handleImportData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileReader = new FileReader();
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      fileReader.readAsText(files[0], 'UTF-8');
-      fileReader.onload = (event) => {
-        try {
-          const parsed = JSON.parse(event?.target?.result as string);
-          if (Array.isArray(parsed) && parsed.every(h => h.id && h.name)) {
-            setHabits(parsed);
-            alert('Habits loaded successfully from backup.');
-          } else {
-            alert('Invalid backup file structure.');
-          }
-        } catch (err) {
-          alert('Failed to parse backup JSON.');
-        }
-      };
-    }
-  };
-
-  // ----------------------------------------------------
   // Dynamic Activity Monitor Calculations
   // ----------------------------------------------------
   const selectedUsageDateStr = useMemo(() => {
@@ -433,7 +388,7 @@ export default function Dashboard() {
           id="tracker-header"
         >
           <div className="min-w-0">
-            <h2 className="text-xl font-extrabold tracking-tight dark:text-white text-slate-850">Dashboard</h2>
+            <h1 className="text-xl font-extrabold tracking-tight dark:text-white text-slate-850">Dashboard</h1>
             <p className="text-xs text-slate-500 mt-0.5">Track habits and build streaks</p>
           </div>
           <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap sm:flex-nowrap sm:justify-end">
@@ -471,29 +426,11 @@ export default function Dashboard() {
             <span className="text-[9px] dark:text-slate-450 text-slate-500 font-mono">Status: LocalStorage Connected</span>
           </div>
           <p className="text-xs dark:text-slate-400 text-slate-600 mb-4 leading-relaxed">
-            Configure your display preference or download static backups. All your data resides locally on your client device.
+            Configure your display preference or move your full workspace between devices. All your data resides locally on your client device.
           </p>
-          
-          <div className="flex gap-3 mb-4">
-            <button
-              onClick={handleExportData}
-              className="flex-1 py-2 px-3 bg-slate-200/50 dark:bg-white/[0.03] hover:bg-slate-300/60 dark:hover:bg-white/[0.08] dark:text-slate-100 text-slate-800 rounded-lg text-xs font-mono border border-slate-300 dark:border-white/5 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-              id="export-btn"
-            >
-              <Download className="w-3.5 h-3.5" /> Export Data JSON
-            </button>
-            <label
-              className="flex-1 py-2 px-3 bg-slate-200/50 dark:bg-white/[0.03] hover:bg-slate-300/60 dark:hover:bg-white/[0.08] dark:text-slate-100 text-slate-800 rounded-lg text-xs font-mono border border-slate-300 dark:border-white/5 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer text-center"
-              id="import-btn"
-            >
-              <Upload className="w-3.5 h-3.5" /> Import Data JSON
-              <input 
-                type="file" 
-                accept=".json" 
-                onChange={handleImportData} 
-                className="hidden" 
-              />
-            </label>
+
+          <div className="mb-4">
+            <DataPortabilityPanel />
           </div>
 
           <AmbientSettingsPanel theme={theme} />
@@ -847,21 +784,14 @@ export default function Dashboard() {
               <label className="block text-[11px] font-bold dark:text-slate-400 text-slate-600 mb-1 uppercase tracking-wider">
                 Time required
               </label>
-              <label className="flex items-center gap-2 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300 dark:border-white/5 py-2 px-3 rounded-xl">
+              <div className="flex items-center justify-between gap-2 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300 dark:border-white/5 py-2 px-3 rounded-xl">
                 <Clock className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
-                <input
-                  type="number"
-                  min={1}
-                  max={240}
+                <MinuteStepper
                   value={newHabitTargetMinutes}
-                  onChange={(e) => setNewHabitTargetMinutes(Number(e.target.value))}
-                  className="w-full bg-transparent text-xs font-semibold text-slate-850 dark:text-white focus:outline-none"
-                  id="form-habit-target-minutes"
+                  onChange={setNewHabitTargetMinutes}
+                  label="Time required"
                 />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                  min
-                </span>
-              </label>
+              </div>
             </div>
 
             {/* Intensity levels selector */}
@@ -1049,19 +979,14 @@ export default function Dashboard() {
                       <span className="flex items-center gap-1 opacity-80">
                         <TrendingUp className="w-3 h-3 dark:text-cyan-400 text-cyan-600" /> Max streak: {habit.longestStreak} days
                       </span>
-                      <label className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-200/50 dark:bg-slate-950/30 border border-slate-300 dark:border-white/5">
+                      <div className="habit-time-control">
                         <Clock className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
-                        <input
-                          type="number"
-                          min={1}
-                          max={240}
+                        <MinuteStepper
                           value={getHabitTargetMinutes(habit)}
-                          onChange={(e) => handleUpdateTargetMinutes(habit.id, Number(e.target.value))}
-                          className="w-10 bg-transparent text-[10px] font-bold text-slate-700 dark:text-slate-200 focus:outline-none"
-                          aria-label={`Target minutes for ${habit.name}`}
+                          onChange={(minutes) => handleUpdateTargetMinutes(habit.id, minutes)}
+                          label={`Target minutes for ${habit.name}`}
                         />
-                        <span>m</span>
-                      </label>
+                      </div>
                     </div>
                     {deletingHabitId === habit.id ? (
                       <div className="flex items-center gap-1.5 animate-entrance">
@@ -1328,9 +1253,23 @@ export default function Dashboard() {
       {/* ----------------- CLEAN HUMAN SCALE FOOTER ----------------- */}
       <footer className="mt-12 pt-5 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] font-mono text-slate-500">
         <div className="flex flex-wrap items-center gap-4 justify-center sm:justify-start">
-          <span className="text-cyan-400 flex items-center gap-1 font-bold tracking-wider">
-            <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse inline-block status-dot-active" />
-            Latency: {latency}ms
+          <span
+            className={`flex items-center gap-1 font-bold tracking-wider transition-colors ${
+              network.status === 'offline'
+                ? 'text-rose-500'
+                : network.status === 'slow'
+                  ? 'text-amber-500'
+                  : 'text-cyan-400'
+            }`}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full inline-block status-dot-active ${
+              network.status === 'offline'
+                ? 'bg-rose-500'
+                : network.status === 'slow'
+                  ? 'bg-amber-500'
+                  : 'bg-cyan-500 animate-pulse'
+            }`} />
+            Network: {network.label}
           </span>
           <span>Offline Storage Ready</span>
         </div>

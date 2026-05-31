@@ -21,24 +21,22 @@ export function FocusGrowthSection() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
-      <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+    <section ref={ref} className="landing-section relative z-10 py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
+      <div className="landing-editorial-grid items-center">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600/90 dark:text-emerald-400/90 mb-3">
-            Focus forest
+            Focus ecosystem
           </p>
           <h2 className="font-display text-3xl sm:text-4xl leading-tight">
-            Every focused minute
-            <br />
-            <span className="italic text-[var(--text-secondary)]">plants something real.</span>
+            Focus that leaves a trace.
           </h2>
           <p className="mt-4 text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed max-w-md">
-            Pomodoro sessions aren’t a race—they’re rainfall. Your forest thickens quietly while you
-            work, rest, and return.
+            Each focus session becomes a small artifact of care. The grove grows slowly, visibly,
+            and without turning your work into a game.
           </p>
           <ul className="mt-6 space-y-3 text-sm text-[var(--text-secondary)]">
             {['25-minute deep work rhythms', 'Trees that mature with consistency', 'Breaks that feel earned, not rushed'].map(
@@ -62,7 +60,7 @@ export function FocusGrowthSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="landing-glass rounded-3xl p-6 sm:p-8 relative"
+          className="landing-analytics-panel relative"
         >
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-emerald-500/10 to-transparent pointer-events-none" />
           <svg viewBox="0 0 320 100" className="w-full h-auto" aria-hidden>

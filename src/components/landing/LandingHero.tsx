@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import { useCallback, type MouseEvent } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Compass, Sparkles } from 'lucide-react';
 import { BRAND } from '../../constants/brand';
 import { AppMockup } from './AppMockup';
 
@@ -33,65 +33,75 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
 
   return (
     <section
-      className="relative min-h-[100dvh] flex flex-col justify-center pt-28 pb-16 px-4 sm:px-6"
+      className="landing-hero-section relative isolate min-h-[100svh] flex flex-col justify-center px-4 sm:px-6"
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
     >
-      <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="text-center lg:text-left order-2 lg:order-1">
+      <div className="landing-hero-frame">
+        <div className="landing-hero-copy">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full landing-glass text-xs font-medium text-[var(--text-secondary)] mb-6"
+            className="landing-kicker"
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
-            <span>Calm productivity, offline-first</span>
+            <Compass className="w-3.5 h-3.5" />
+            <span>Private routines · ambient focus · measurable calm</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-[2.75rem] sm:text-5xl lg:text-[3.25rem] leading-[1.08] tracking-tight text-[var(--text-primary)]"
+            className="landing-hero-title"
           >
-            Habits that move
-            <br />
-            <span className="italic text-cyan-600/90 dark:text-cyan-400/95">you forward.</span>
+            Design your day with quiet intention.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="mt-5 text-base sm:text-lg text-[var(--text-secondary)] max-w-md mx-auto lg:mx-0 leading-relaxed"
+            className="landing-hero-subcopy"
           >
-            {BRAND.tagline}. A quiet space for daily rituals, gentle focus, and a forest that grows
-            with every mindful minute.
+            {BRAND.name} turns habits, tasks, focus, and reflection into a calm operating system
+            for everyday momentum.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start"
+            className="landing-hero-actions"
           >
             <motion.button
               type="button"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onGetStarted}
-              className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl text-base font-semibold bg-cyan-600 text-white shadow-xl shadow-cyan-600/30 hover:bg-cyan-500 transition-colors"
+              className="landing-primary-cta group"
             >
               {isReturning ? 'Continue to your space' : 'Begin your journey'}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </motion.button>
             <a
-              href="#discover"
-              className="inline-flex items-center justify-center px-7 py-3.5 rounded-2xl text-base font-semibold landing-glass text-[var(--text-primary)] hover:border-cyan-500/30 transition-colors"
+              href="#philosophy"
+              className="landing-secondary-cta"
             >
-              Explore gently
+              See the rhythm
             </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.65 }}
+            className="landing-hero-proof"
+            aria-label="Product highlights"
+          >
+            {['Offline-first', 'Focus forest', 'Weekly clarity'].map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </motion.div>
         </div>
 
@@ -99,9 +109,16 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="order-1 lg:order-2"
+          className="landing-hero-visual"
           style={{ rotateX: springY, rotateY: springX }}
         >
+          <div className="landing-cinematic-panel" aria-hidden>
+            <div className="landing-cinematic-line" />
+            <div className="landing-cinematic-copy">
+              <Sparkles className="h-4 w-4" />
+              Focus session in progress
+            </div>
+          </div>
           <AppMockup />
         </motion.div>
       </div>
@@ -110,7 +127,7 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)]"
+        className="landing-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)]"
         aria-hidden
       >
         <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll</span>

@@ -7,8 +7,11 @@ import TodoPage from './pages/TodoPage';
 import CalendarPage from './pages/CalendarPage';
 import PomodoroPage from './pages/PomodoroPage';
 import RemindersPage from './pages/RemindersPage';
+import { usePageSeo } from './hooks/usePageSeo';
 
 export default function App() {
+  usePageSeo();
+
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />

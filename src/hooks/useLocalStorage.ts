@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 
 export const LOCAL_STORAGE_SYNC_EVENT = 'northhabit:storage-sync';
 
+export function publishStorageSync<T>(key: string, value: T) {
+  window.dispatchEvent(
+    new CustomEvent(LOCAL_STORAGE_SYNC_EVENT, { detail: { key, value } }),
+  );
+}
+
 function readStorage<T>(key: string, initialValue: T): T {
   try {
     const item = localStorage.getItem(key);
@@ -32,9 +38,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         const next = value instanceof Function ? value(prev) : value;
         try {
           localStorage.setItem(key, JSON.stringify(next));
-          window.dispatchEvent(
-            new CustomEvent(LOCAL_STORAGE_SYNC_EVENT, { detail: { key, value: next } }),
-          );
+          publishStorageSync(key, next);
         } catch {
           /* ignore */
         }
@@ -54,7 +58,19 @@ export function useLocalStorageString(key: string, initialValue: string) {
 
   useEffect(() => {
     localStorage.setItem(key, stored);
+    publishStorageSync(key, stored);
   }, [key, stored]);
+
+  useEffect(() => {
+    const onSync = (event: Event) => {
+      const detail = (event as CustomEvent<{ key: string; value: string }>).detail;
+      if (detail?.key === key && typeof detail.value === 'string') {
+        setStored(detail.value);
+      }
+    };
+    window.addEventListener(LOCAL_STORAGE_SYNC_EVENT, onSync);
+    return () => window.removeEventListener(LOCAL_STORAGE_SYNC_EVENT, onSync);
+  }, [key]);
 
   return [stored, setStored] as const;
 }

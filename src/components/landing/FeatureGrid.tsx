@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform } from 'motion/react';
+import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import { Calendar, ListTodo, LayoutDashboard, Timer, Shield, WifiOff } from 'lucide-react';
 
@@ -66,26 +66,17 @@ function FeatureCard({
 
 export function FeatureGrid() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section ref={sectionRef} id="discover" className="py-20 sm:py-28 px-4 sm:px-6 relative">
-      <motion.div
-        style={{ y: parallaxY }}
-        className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"
-      />
+    <section ref={sectionRef} id="discover" className="landing-section py-20 sm:py-28 px-4 sm:px-6 relative z-10">
 
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-600/90 dark:text-cyan-400/90 mb-3">
             Everything in one calm place
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl text-[var(--text-primary)]">
-            Built for <span className="italic">steady</span> days
+          <h2 className="landing-editorial-title mx-auto text-center">
+            Built for steady days.
           </h2>
         </div>
 

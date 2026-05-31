@@ -162,7 +162,7 @@ export function FocusEcosystem({ state, phase, isGrowing, stats }: FocusEcosyste
         )}
       </div>
 
-      <div className="relative z-10 flex items-center justify-center gap-6 sm:gap-10 py-2.5 px-4 border-t border-[var(--border-light)] bg-[var(--glass-background)]/60 backdrop-blur-md">
+      <div className="relative z-10 flex items-center justify-center gap-6 sm:gap-10 py-2.5 px-4 border-t border-[var(--border-light)] bg-[var(--glass-background)]">
         <Stat label="Today" value={formatMinutes(stats.todayMinutes)} />
         <div className="w-px h-4 bg-[var(--border-light)]" />
         <Stat label="This week" value={formatMinutes(stats.weekMinutes)} />

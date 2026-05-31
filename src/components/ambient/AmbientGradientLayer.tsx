@@ -9,9 +9,9 @@ interface AmbientGradientLayerProps {
 
 export function AmbientGradientLayer({ palette, animate, intensity }: AmbientGradientLayerProps) {
   const duration = intensity === 'soft' ? 28 : 22;
-  const orbSizeA = intensity === 'soft' ? 420 : 520;
-  const orbSizeB = intensity === 'soft' ? 380 : 440;
-  const orbSizeC = intensity === 'soft' ? 320 : 360;
+  const orbSizeA = intensity === 'soft' ? 360 : 440;
+  const orbSizeB = intensity === 'soft' ? 320 : 390;
+  const orbSizeC = intensity === 'soft' ? 280 : 340;
 
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -28,7 +28,7 @@ export function AmbientGradientLayer({ palette, animate, intensity }: AmbientGra
           width: orbSizeA,
           height: orbSizeA,
           background: palette.orbA,
-          filter: 'blur(80px)',
+          filter: 'blur(110px)',
         }}
         animate={
           animate
@@ -46,7 +46,7 @@ export function AmbientGradientLayer({ palette, animate, intensity }: AmbientGra
           width: orbSizeB,
           height: orbSizeB,
           background: palette.orbB,
-          filter: 'blur(90px)',
+          filter: 'blur(120px)',
         }}
         animate={
           animate
@@ -64,7 +64,7 @@ export function AmbientGradientLayer({ palette, animate, intensity }: AmbientGra
           width: orbSizeC,
           height: orbSizeC,
           background: palette.orbC,
-          filter: 'blur(70px)',
+          filter: 'blur(105px)',
         }}
         animate={
           animate

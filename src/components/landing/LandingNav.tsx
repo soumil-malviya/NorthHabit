@@ -22,8 +22,8 @@ export function LandingNav({ theme, onToggleTheme, onGetStarted, isReturning }: 
         aria-label="Landing"
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-600/90 to-teal-800 flex items-center justify-center shadow-lg shadow-cyan-500/15 shrink-0">
-            <Compass className="w-4 h-4 text-cyan-50" strokeWidth={2.25} />
+          <div className="w-9 h-9 rounded-xl bg-[var(--surface-raised)] border border-[var(--border-light)] flex items-center justify-center shadow-[var(--shadow-resting)] shrink-0">
+            <Compass className="w-4 h-4 text-[var(--accent-primary)]" strokeWidth={2.25} />
           </div>
           <span className="font-semibold text-sm tracking-tight truncate">{BRAND.name}</span>
         </div>
@@ -32,7 +32,7 @@ export function LandingNav({ theme, onToggleTheme, onGetStarted, isReturning }: 
           <button
             type="button"
             onClick={onToggleTheme}
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-secondary)] hover:bg-white/5 light-theme:hover:bg-slate-900/5 transition-colors"
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] transition-colors"
             aria-label={theme === 'dark' ? 'Light mode' : 'Dark mode'}
           >
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -42,7 +42,7 @@ export function LandingNav({ theme, onToggleTheme, onGetStarted, isReturning }: 
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onGetStarted}
-            className="hidden sm:inline-flex px-4 py-2 rounded-xl text-sm font-semibold bg-cyan-600 text-white shadow-lg shadow-cyan-600/25 hover:bg-cyan-500 transition-colors"
+            className="hidden sm:inline-flex px-4 py-2 rounded-xl text-sm font-semibold bg-[var(--accent-primary)] text-white shadow-[var(--shadow-resting)] hover:bg-[var(--accent-primary-hover)] transition-colors"
           >
             {isReturning ? 'Continue' : 'Get Started'}
           </motion.button>

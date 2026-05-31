@@ -5,10 +5,10 @@ import { ArrowRight } from 'lucide-react';
 import { AmbientBackground } from '../components/landing/AmbientBackground';
 import { LandingNav } from '../components/landing/LandingNav';
 import { LandingHero } from '../components/landing/LandingHero';
-import { StreakShowcase } from '../components/landing/StreakShowcase';
-import { OnboardingFlow } from '../components/landing/OnboardingFlow';
+import { PhilosophySection } from '../components/landing/PhilosophySection';
 import { FocusGrowthSection } from '../components/landing/FocusGrowthSection';
 import { FeatureGrid } from '../components/landing/FeatureGrid';
+import { AnalyticsPreviewSection } from '../components/landing/AnalyticsPreviewSection';
 import { useTheme } from '../hooks/useTheme';
 import { useOnboarding } from '../hooks/useOnboarding';
 import { BRAND } from '../constants/brand';
@@ -38,7 +38,7 @@ export default function LandingPage() {
         <motion.div
           key="landing"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02, filter: 'blur(8px)' }}
+          exit={{ opacity: 0, scale: 1.01, filter: 'blur(3px)' }}
           transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1] }}
           className="min-h-screen text-[var(--text-primary)] relative"
         >
@@ -50,11 +50,11 @@ export default function LandingPage() {
             isReturning={isComplete}
           />
 
-          <main>
+          <main className="landing-page-flow relative z-10">
             <LandingHero onGetStarted={enterApp} isReturning={isComplete} />
-            <StreakShowcase />
-            <OnboardingFlow />
+            <PhilosophySection />
             <FocusGrowthSection />
+            <AnalyticsPreviewSection />
             <FeatureGrid />
           </main>
 
@@ -64,7 +64,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.7 }}
-              className="max-w-2xl mx-auto text-center landing-glass rounded-3xl p-10 sm:p-12"
+              className="landing-final-cta"
             >
               <h2 className="font-display text-2xl sm:text-3xl mb-3">
                 Ready when you are.
@@ -78,7 +78,7 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={enterApp}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl font-semibold bg-cyan-600 text-white shadow-xl shadow-cyan-600/25 hover:bg-cyan-500 transition-colors"
+              className="landing-primary-cta inline-flex"
               >
                 {isComplete ? 'Continue' : 'Get Started'}
                 <ArrowRight className="w-4 h-4" />

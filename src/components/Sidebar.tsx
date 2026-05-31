@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { BRAND } from '../constants/brand';
+import { SidebarProgressCard } from './SidebarProgressCard';
+import type { Habit } from '../types';
 
 const NAV_ITEMS = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -21,6 +23,7 @@ const NAV_ITEMS = [
 ] as const;
 
 interface SidebarProps {
+  habits: Habit[];
   mobileOpen: boolean;
   onMobileClose: () => void;
   onMobileOpen: () => void;
@@ -29,8 +32,8 @@ interface SidebarProps {
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `sidebar-nav-link relative flex items-center gap-3 rounded-xl text-sm font-semibold ${
     isActive
-      ? 'sidebar-nav-active bg-[var(--accent-primary)] text-white shadow-md shadow-cyan-600/20'
-      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/80 dark:hover:bg-white/[0.06] hover:text-slate-900 dark:hover:text-white'
+      ? 'sidebar-nav-active bg-[var(--accent-primary)] text-white shadow-sm'
+      : 'text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]'
   }`;
 
 function NavMenu({ onNavClick, showLabels = true }: { onNavClick?: () => void; showLabels?: boolean }) {
@@ -59,6 +62,7 @@ function NavMenu({ onNavClick, showLabels = true }: { onNavClick?: () => void; s
 }
 
 export function Sidebar({
+  habits,
   mobileOpen,
   onMobileClose,
   onMobileOpen,
@@ -75,7 +79,7 @@ export function Sidebar({
       <button
         type="button"
         onClick={onMobileOpen}
-        className={`lg:hidden fixed top-4 left-4 z-40 p-2.5 rounded-xl glass-panel border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 active:scale-95 transition-opacity ${
+        className={`lg:hidden fixed top-4 left-4 z-40 p-2.5 rounded-xl glass-panel text-[var(--text-secondary)] active:scale-95 transition-opacity ${
           mobileOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
         aria-label="Open menu"
@@ -84,12 +88,15 @@ export function Sidebar({
       </button>
 
       <aside
-        className="sidebar-desktop group/sb hidden lg:flex shrink-0 self-stretch min-h-full flex-col w-[4.75rem] hover:w-64 border-r border-[var(--border-light)] bg-[var(--bg-secondary)]/90 backdrop-blur-xl transition-[width] duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden"
+        className="sidebar-desktop group/sb hidden lg:flex shrink-0 self-stretch min-h-full flex-col w-[4.75rem] hover:w-64 border-r border-[var(--border-light)] bg-[var(--bg-secondary)] transition-[width] duration-200 ease-[cubic-bezier(0.33,1,0.68,1)] overflow-hidden"
         aria-label="Sidebar"
       >
         <div className="flex flex-col h-full w-full p-3">
           <div className="sidebar-logo-wrap mb-6 shrink-0">
             <BrandLogo showTagline={false} />
+          </div>
+          <div className="sidebar-progress-wrap mb-4 shrink-0">
+            <SidebarProgressCard habits={habits} />
           </div>
           <NavMenu showLabels />
         </div>
@@ -103,7 +110,7 @@ export function Sidebar({
       >
         <button
           type="button"
-          className={`absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${
+            className={`absolute inset-0 bg-slate-950/55 transition-opacity duration-300 ${
             mobileOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={onMobileClose}
@@ -111,7 +118,7 @@ export function Sidebar({
           tabIndex={mobileOpen ? 0 : -1}
         />
         <aside
-          className={`mobile-drawer absolute inset-y-2 left-2 w-[min(17.5rem,calc(100vw-1rem))] flex flex-col rounded-2xl border border-[var(--border-light)] bg-[var(--bg-tertiary)] shadow-2xl shadow-black/20 dark:shadow-black/40 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          className={`mobile-drawer absolute inset-y-2 left-2 w-[min(17.5rem,calc(100vw-1rem))] flex flex-col rounded-2xl border border-[var(--border-light)] bg-[var(--bg-tertiary)] shadow-[var(--shadow-lifted)] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
             mobileOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
           }`}
           role="dialog"
@@ -123,7 +130,7 @@ export function Sidebar({
             <button
               type="button"
               onClick={onMobileClose}
-              className="shrink-0 p-2.5 rounded-xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 active:scale-95 transition-all"
+              className="shrink-0 p-2.5 rounded-xl bg-[var(--surface-muted)] border border-[var(--border-light)] text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)] active:scale-95 transition-all"
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
@@ -131,6 +138,9 @@ export function Sidebar({
           </header>
 
           <div className="flex-1 overflow-y-auto px-3 py-3">
+            <div className="mb-3">
+              <SidebarProgressCard habits={habits} />
+            </div>
             <nav className="space-y-1" aria-label="Main navigation">
               {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
                 <NavLink
@@ -141,8 +151,8 @@ export function Sidebar({
                   className={({ isActive }) =>
                     `mobile-nav-link relative flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition-colors ${
                       isActive
-                        ? 'sidebar-nav-active bg-[var(--accent-primary)] text-white shadow-sm shadow-cyan-600/20'
-                        : 'text-slate-600 dark:text-slate-400 active:bg-slate-100 dark:active:bg-white/[0.06]'
+                        ? 'sidebar-nav-active bg-[var(--accent-primary)] text-white shadow-sm'
+                        : 'text-[var(--text-secondary)] active:bg-[var(--surface-hover)]'
                     }`
                   }
                 >

@@ -70,7 +70,7 @@ export function SoundscapeMiniPlayer() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.96 }}
               transition={{ duration: 0.22, ease: [0.33, 1, 0.68, 1] }}
-              className="soundscape-player-panel w-72 rounded-2xl border border-[var(--border-light)] bg-[var(--glass-background)] backdrop-blur-xl shadow-2xl shadow-black/25 p-3"
+              className="soundscape-player-panel w-72 rounded-2xl border border-[var(--border-light)] bg-[var(--glass-background)] shadow-[var(--shadow-resting)] p-3"
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-600/90 dark:text-cyan-400/90 mb-2.5">
                 Soundscape
