@@ -5,6 +5,7 @@ import App from './App.tsx';
 import './index.css';
 import { registerServiceWorker } from './lib/notifications/registerServiceWorker';
 import { AuthProvider } from './providers/AuthProvider';
+import { FirestoreSyncProvider } from './providers/FirestoreSyncProvider';
 
 void registerServiceWorker();
 
@@ -12,7 +13,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <FirestoreSyncProvider>
+          <App />
+        </FirestoreSyncProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

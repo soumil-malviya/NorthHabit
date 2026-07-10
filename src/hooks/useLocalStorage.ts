@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import {
+  LOCAL_STORAGE_SYNC_EVENT,
+  publishStorageSync,
+  writeCloudStorageValue,
+} from '../services/cloudStorageBridge';
 
-export const LOCAL_STORAGE_SYNC_EVENT = 'northhabit:storage-sync';
-
-export function publishStorageSync<T>(key: string, value: T) {
-  window.dispatchEvent(
-    new CustomEvent(LOCAL_STORAGE_SYNC_EVENT, { detail: { key, value } }),
-  );
-}
+export { LOCAL_STORAGE_SYNC_EVENT, publishStorageSync };
 
 function readStorage<T>(key: string, initialValue: T): T {
   try {
@@ -39,6 +38,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         try {
           localStorage.setItem(key, JSON.stringify(next));
           publishStorageSync(key, next);
+          writeCloudStorageValue(key, next);
         } catch {
           /* ignore */
         }
@@ -57,11 +57,6 @@ export function useLocalStorageString(key: string, initialValue: string) {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, stored);
-    publishStorageSync(key, stored);
-  }, [key, stored]);
-
-  useEffect(() => {
     const onSync = (event: Event) => {
       const detail = (event as CustomEvent<{ key: string; value: string }>).detail;
       if (detail?.key === key && typeof detail.value === 'string') {
@@ -72,5 +67,22 @@ export function useLocalStorageString(key: string, initialValue: string) {
     return () => window.removeEventListener(LOCAL_STORAGE_SYNC_EVENT, onSync);
   }, [key]);
 
-  return [stored, setStored] as const;
+  const setValue = useCallback(
+    (value: string | ((prev: string) => string)) => {
+      setStored((prev) => {
+        const next = value instanceof Function ? value(prev) : value;
+        try {
+          localStorage.setItem(key, next);
+          publishStorageSync(key, next);
+          writeCloudStorageValue(key, next);
+        } catch {
+          /* ignore */
+        }
+        return next;
+      });
+    },
+    [key],
+  );
+
+  return [stored, setValue] as const;
 }
