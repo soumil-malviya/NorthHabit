@@ -1,12 +1,15 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout';
 import { AppEntryTransition } from './components/AppEntryTransition';
+import { AuthGuard } from './components/AuthGuard';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import TodoPage from './pages/TodoPage';
 import CalendarPage from './pages/CalendarPage';
 import PomodoroPage from './pages/PomodoroPage';
 import RemindersPage from './pages/RemindersPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
 import { usePageSeo } from './hooks/usePageSeo';
 
 export default function App() {
@@ -15,12 +18,16 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/terms" element={<TermsOfServicePage />} />
       <Route
         path="/app"
         element={
-          <AppEntryTransition>
-            <AppLayout />
-          </AppEntryTransition>
+          <AuthGuard>
+            <AppEntryTransition>
+              <AppLayout />
+            </AppEntryTransition>
+          </AuthGuard>
         }
       >
         <Route index element={<Dashboard />} />

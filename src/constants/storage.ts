@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   forest: 'routine_focus_forest',
   focusEcosystem: 'northhabit_focus_ecosystem',
   onboardingComplete: 'northhabit_onboarding_complete',
+  onboardingStep: 'northhabit_onboarding_step',
   notifications: 'northhabit_notification_prefs',
   ambient: 'northhabit_ambient_settings',
   soundscape: 'northhabit_soundscape_settings',

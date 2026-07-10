@@ -19,7 +19,7 @@ export function UserProfileControls({
   onToggleTheme,
 }: UserProfileControlsProps) {
   return (
-    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+    <div className="profile-controls">
       <UsernameChip username={username} onUsernameChange={onUsernameChange} />
 
       <div

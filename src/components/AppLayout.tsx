@@ -9,12 +9,14 @@ import { SoundscapeMiniPlayer } from './soundscape/SoundscapeMiniPlayer';
 import { QuickActionsMenu } from './QuickActionsMenu';
 import { MotionPage } from './motion/MotionPage';
 import { UserProfileControls } from './UserProfileControls';
+import { OnboardingExperience } from './onboarding/OnboardingExperience';
 import {
   NotificationPermissionBanner,
   enableNotificationsFlow,
 } from './notifications/NotificationPermissionBanner';
 import { useTheme } from '../hooks/useTheme';
 import { useHabits } from '../hooks/useHabits';
+import { useOnboarding } from '../hooks/useOnboarding';
 import { useNotificationPrefs } from '../hooks/useNotificationPrefs';
 import { useNotificationScheduler } from '../hooks/useNotificationScheduler';
 import { useLocalStorageString } from '../hooks/useLocalStorage';
@@ -25,8 +27,16 @@ import type { ThemeMode } from '../types';
 import type { AppOutletContext } from '../types/appContext';
 
 export function AppLayout() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTheme } = useTheme();
   const { habits } = useHabits();
+  const {
+    isComplete: onboardingComplete,
+    currentStep,
+    totalSteps,
+    setStep,
+    completeOnboarding,
+    skipOnboarding,
+  } = useOnboarding();
   const [username, setUsername] = useLocalStorageString(
     STORAGE_KEYS.username,
     BRAND.defaultUsername,
@@ -71,7 +81,7 @@ export function AppLayout() {
           onMobileOpen={() => setMobileOpen(true)}
         />
 
-        <main className="flex-1 min-w-0 w-full min-h-screen pb-44 lg:pb-20 relative px-4 sm:px-6 lg:px-8 max-w-7xl lg:mx-auto pt-16 lg:pt-6 selection:bg-cyan-500/25">
+        <main className="app-main selection:bg-cyan-500/25">
           {!isDashboard && (
             <div className="flex justify-end mb-4 lg:mb-5">
               <UserProfileControls
@@ -107,11 +117,24 @@ export function AppLayout() {
             </div>
           </AnimatePresence>
         </main>
-        </div>
+
         <div className="floating-controls-dock" aria-label="Quick controls">
           <QuickActionsMenu habits={habits} />
           <SoundscapeMiniPlayer />
         </div>
+        </div>
+
+        {!onboardingComplete && (
+          <OnboardingExperience
+            theme={theme as ThemeMode}
+            onThemeChange={setTheme}
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            onStepChange={setStep}
+            onComplete={completeOnboarding}
+            onSkip={skipOnboarding}
+          />
+        )}
       </div>
       </SoundscapeProvider>
     </AmbientSettingsProvider>

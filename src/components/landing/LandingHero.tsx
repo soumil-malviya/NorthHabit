@@ -33,10 +33,11 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
 
   return (
     <section
-      className="landing-hero-section relative isolate min-h-[100svh] flex flex-col justify-center px-4 sm:px-6"
+      className="landing-hero-section relative isolate min-h-[100svh] flex flex-col justify-center"
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
     >
+      <div className="landing-container">
       <div className="landing-hero-frame">
         <div className="landing-hero-copy">
           <motion.div
@@ -64,8 +65,7 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
             transition={{ duration: 0.8, delay: 0.35 }}
             className="landing-hero-subcopy"
           >
-            {BRAND.name} turns habits, tasks, focus, and reflection into a calm operating system
-            for everyday momentum.
+            {BRAND.name} brings habits, tasks, focus, and notes into one private workspace.
           </motion.p>
 
           <motion.div
@@ -81,27 +81,15 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
               onClick={onGetStarted}
               className="landing-primary-cta group"
             >
-              {isReturning ? 'Continue to your space' : 'Begin your journey'}
+              {isReturning ? 'Continue' : 'Open workspace'}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </motion.button>
             <a
               href="#philosophy"
               className="landing-secondary-cta"
             >
-              See the rhythm
+              How it works
             </a>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.65 }}
-            className="landing-hero-proof"
-            aria-label="Product highlights"
-          >
-            {['Offline-first', 'Focus forest', 'Weekly clarity'].map((item) => (
-              <span key={item}>{item}</span>
-            ))}
           </motion.div>
         </div>
 
@@ -121,6 +109,7 @@ export function LandingHero({ onGetStarted, isReturning }: LandingHeroProps) {
           </div>
           <AppMockup />
         </motion.div>
+      </div>
       </div>
 
       <motion.div

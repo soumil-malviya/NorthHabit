@@ -1,94 +1,80 @@
+import { motion } from 'motion/react';
 import type { ThemeMode } from '../types';
 
 interface ThemeToggleProps {
   theme: ThemeMode;
   onToggle: () => void;
   compact?: boolean;
-  /** Compact icon button for headers and toolbars */
   iconOnly?: boolean;
 }
 
 export function ThemeToggle({ theme, onToggle, compact = false, iconOnly = false }: ThemeToggleProps) {
   const isDark = theme === 'dark';
 
+  if (iconOnly) {
+    return (
+      <button
+        type="button"
+        onClick={onToggle}
+        className="theme-switch theme-switch--icon"
+        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        aria-pressed={isDark}
+      >
+        <span className="theme-switch-track" aria-hidden>
+          <motion.span
+            className="theme-switch-thumb"
+            layout
+            transition={{ type: 'spring', stiffness: 520, damping: 36 }}
+            style={{ left: isDark ? 'calc(100% - 1.15rem)' : '0.1rem' }}
+          />
+          <span className={`theme-switch-face ${isDark ? '' : 'is-visible'}`} aria-hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-8.9-6.2A7 7 0 0 1 12 3z" />
+            </svg>
+          </span>
+          <span className={`theme-switch-face ${isDark ? 'is-visible' : ''}`} aria-hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2" />
+            </svg>
+          </span>
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"
       onClick={onToggle}
-      className={`group relative flex items-center justify-center rounded-xl transition-all duration-300 ${
-        iconOnly
-          ? 'w-10 h-10 border border-[var(--border-light)] hover:bg-[var(--surface-hover)] shrink-0'
-          : compact
-            ? 'w-10 h-10 mx-auto group-hover/sb:w-full group-hover/sb:gap-2 group-hover/sb:py-2.5 group-hover/sb:px-3 group-hover/sb:border group-hover/sb:border-[var(--border-light)] group-hover/sb:hover:bg-[var(--surface-hover)]'
-            : 'w-full gap-2 py-2.5 px-3 border border-[var(--border-light)] hover:bg-[var(--surface-hover)]'
-      }`}
+      className={`theme-switch ${compact ? 'theme-switch--compact' : 'theme-switch--full'}`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-pressed={isDark}
     >
-      <span className="absolute inset-0 rounded-xl bg-[var(--surface-muted)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
-      <span className={`relative flex items-center justify-center ${iconOnly ? 'w-8 h-8' : 'w-9 h-9'}`}>
-        {/* Sun — visible in dark mode (click to go light) */}
-        <span
-          className={`absolute transition-all duration-500 ${
-            isDark
-              ? 'opacity-100 scale-100 rotate-0'
-              : 'opacity-0 scale-50 rotate-90 pointer-events-none'
-          }`}
-        >
-          <span
-            className="absolute inset-0 rounded-full bg-amber-400/12 scale-125"
-            aria-hidden
-          />
-          <svg
-            viewBox="0 0 24 24"
-            className="relative w-7 h-7 text-amber-500"
-            fill="currentColor"
-            aria-hidden
-          >
-            <circle cx="12" cy="12" r="4" />
-            {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-              <rect
-                key={deg}
-                x="11"
-                y="1"
-                width="2"
-                height="3"
-                rx="1"
-                transform={`rotate(${deg} 12 12)`}
-                opacity="0.9"
-              />
-            ))}
-          </svg>
-        </span>
-        {/* Moon — visible in light mode */}
-        <span
-          className={`absolute transition-all duration-500 ${
-            !isDark
-              ? 'opacity-100 scale-100 rotate-0'
-              : 'opacity-0 scale-50 -rotate-90 pointer-events-none'
-          }`}
-        >
-          <span
-            className="absolute inset-0 rounded-full bg-slate-400/12 scale-125"
-            aria-hidden
-          />
-          <svg
-            viewBox="0 0 24 24"
-            className="relative w-7 h-7 text-slate-500 dark:text-slate-300"
-            fill="currentColor"
-            aria-hidden
-          >
+      <span className="theme-switch-track" aria-hidden>
+        <motion.span
+          className="theme-switch-thumb"
+          layout
+          transition={{ type: 'spring', stiffness: 520, damping: 36 }}
+          style={{ left: isDark ? 'calc(100% - 1.15rem)' : '0.1rem' }}
+        />
+        <span className={`theme-switch-face ${isDark ? '' : 'is-visible'}`} aria-hidden>
+          <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.5 5.5 0 0 1-8.9-6.2A7 7 0 0 1 12 3z" />
           </svg>
         </span>
-      </span>
-      {iconOnly ? null : compact ? (
-        <span className="relative hidden group-hover/sb:inline text-xs font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap">
-          {isDark ? 'Light mode' : 'Dark mode'}
+        <span className={`theme-switch-face ${isDark ? 'is-visible' : ''}`} aria-hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2" />
+          </svg>
         </span>
+      </span>
+      {!compact ? (
+        <span className="theme-switch-label">{isDark ? 'Dark' : 'Light'}</span>
       ) : (
-        <span className="relative text-xs font-semibold text-slate-600 dark:text-slate-400">
-          {isDark ? 'Light mode' : 'Dark mode'}
+        <span className="theme-switch-label hidden group-hover/sb:inline">
+          {isDark ? 'Dark' : 'Light'}
         </span>
       )}
     </button>

@@ -12,9 +12,12 @@
       name="keywords"
       content="NorthHabit, habit tracker, productivity app, routine planner, pomodoro timer, focus timer, offline productivity, streak tracker"
     />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0e7490" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="author" content="NorthHabit" />
+    <meta name="application-name" content="NorthHabit" />
+    <meta name="theme-color" content="#0f8aa3" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="canonical" href="https://northhabit.app/" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,6 +33,8 @@
       property="og:description"
       content="Track daily habits, manage to‑dos, view your calendar, and grow your focus forest. Offline-first and private."
     />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:alt" content="NorthHabit — habit tracker and focus workspace preview" />
     <meta property="og:image" content="https://northhabit.app/og-image.svg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -39,7 +44,32 @@
       name="twitter:description"
       content="Track daily habits, manage to‑dos, and stay focused with a Pomodoro forest."
     />
-    <meta name="twitter:image" content="https://northhabit.app/og-image.svg" />
+    <meta name="twitter:image:alt" content="NorthHabit product preview" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://northhabit.app/#website",
+            "url": "https://northhabit.app/",
+            "name": "NorthHabit",
+            "description": "Track daily habits, manage to-dos, view your calendar, and grow your focus forest. Offline-first and private.",
+            "inLanguage": "en-US"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "NorthHabit",
+            "applicationCategory": "ProductivityApplication",
+            "operatingSystem": "Web",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "url": "https://northhabit.app/app",
+            "image": "https://northhabit.app/og-image.svg",
+            "isAccessibleForFree": true
+          }
+        ]
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { AmbientBackground } from '../components/landing/AmbientBackground';
@@ -16,7 +16,7 @@ import { BRAND } from '../constants/brand';
 export default function LandingPage() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { isComplete, completeOnboarding } = useOnboarding();
+  const { isComplete } = useOnboarding();
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
@@ -26,9 +26,8 @@ export default function LandingPage() {
 
   const enterApp = useCallback(() => {
     setExiting(true);
-    completeOnboarding();
     window.setTimeout(() => navigate('/app', { replace: true }), 650);
-  }, [completeOnboarding, navigate]);
+  }, [navigate]);
 
   const themeMode = theme === 'dark' ? 'dark' : 'light';
 
@@ -44,7 +43,7 @@ export default function LandingPage() {
         >
           <AmbientBackground theme={themeMode} />
           <LandingNav
-            theme={themeMode}
+            theme={theme}
             onToggleTheme={toggleTheme}
             onGetStarted={enterApp}
             isReturning={isComplete}
@@ -58,7 +57,7 @@ export default function LandingPage() {
             <FeatureGrid />
           </main>
 
-          <footer className="px-4 sm:px-6 pb-16 pt-8">
+          <footer className="landing-container landing-footer pb-12 sm:pb-16 pt-6 sm:pt-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -87,6 +86,23 @@ export default function LandingPage() {
             <p className="text-center text-[10px] text-[var(--text-muted)] mt-8 font-medium tracking-wide">
               {BRAND.name} · private · offline-first
             </p>
+            <nav
+              aria-label="Legal"
+              className="mt-4 flex items-center justify-center gap-4 text-[11px] font-semibold text-[var(--text-muted)]"
+            >
+              <Link className="hover:text-[var(--text-primary)] transition-colors" to="/privacy">
+                Privacy
+              </Link>
+              <Link className="hover:text-[var(--text-primary)] transition-colors" to="/terms">
+                Terms
+              </Link>
+              <a
+                className="hover:text-[var(--text-primary)] transition-colors"
+                href="mailto:soumil.malviya@icloud.com"
+              >
+                Contact
+              </a>
+            </nav>
           </footer>
         </motion.div>
       )}

@@ -20,20 +20,19 @@ export function AmbientBackground({ theme }: AmbientBackgroundProps) {
       <motion.div
         style={{ y: orb1Y }}
         className={`landing-ambient-orb landing-glow-orb absolute -top-[20%] left-[5%] w-[min(90vw,520px)] h-[min(90vw,520px)] rounded-full ${
-          isDark ? 'bg-cyan-500/25' : 'bg-cyan-400/20'
+          isDark ? 'bg-cyan-500/20' : 'bg-cyan-400/15'
         }`}
       />
       <motion.div
         style={{ y: orb2Y }}
         className={`landing-ambient-orb absolute top-[30%] -right-[15%] w-[min(80vw,440px)] h-[min(80vw,440px)] rounded-full landing-glow-orb ${
-          isDark ? 'bg-teal-700/20' : 'bg-teal-500/15'
+          isDark ? 'bg-cyan-600/15' : 'bg-cyan-500/12'
         }`}
-        initial={{ animationDelay: '-4s' }}
       />
       <motion.div
         style={{ y: orb3Y }}
         className={`landing-ambient-orb absolute bottom-[10%] left-[20%] w-[min(70vw,380px)] h-[min(70vw,380px)] rounded-full ${
-          isDark ? 'bg-emerald-600/15' : 'bg-emerald-400/12'
+          isDark ? 'bg-cyan-700/10' : 'bg-cyan-300/8'
         }`}
       />
 

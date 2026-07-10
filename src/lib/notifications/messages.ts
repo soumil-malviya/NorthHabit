@@ -28,7 +28,7 @@ export function habitReminderPayload(pendingCount: number): NotificationPayload 
 
 export function streakReminderPayload(streakDays: number): NotificationPayload {
   return {
-    title: streakDays >= 7 ? 'Your rhythm is beautiful' : 'Keep your streak warm',
+    title: streakDays >= 7 ? 'Streak milestone' : 'Keep your streak going',
     body:
       streakDays >= 7
         ? `${streakDays} days of showing up. A few minutes tonight keeps the glow alive.`

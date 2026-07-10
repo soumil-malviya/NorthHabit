@@ -4,6 +4,8 @@ import { BRAND } from '../constants/brand';
 interface BrandLogoProps {
   compact?: boolean;
   showTagline?: boolean;
+  /** Always show the wordmark (mobile drawer) */
+  forceShowName?: boolean;
   /** Allow tagline to wrap on two lines (mobile drawer) */
   taglineWrap?: boolean;
 }
@@ -11,6 +13,7 @@ interface BrandLogoProps {
 export function BrandLogo({
   compact = false,
   showTagline = !compact,
+  forceShowName = false,
   taglineWrap = false,
 }: BrandLogoProps) {
   return (
@@ -20,8 +23,14 @@ export function BrandLogo({
         <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[var(--accent-primary)] opacity-80" />
       </div>
       {!compact && (
-        <div className="brand-text hidden group-hover/sb:block min-w-0 flex-1 overflow-hidden">
-          <h1 className="text-lg font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+        <div
+          className={`brand-text min-w-0 flex-1 overflow-hidden whitespace-nowrap transition-[opacity,width] duration-200 ${
+            forceShowName
+              ? 'opacity-100 w-auto'
+              : 'opacity-0 w-0 group-hover/sb:opacity-100 group-hover/sb:w-auto'
+          }`}
+        >
+          <h1 className="text-base font-semibold tracking-tight text-[var(--text-primary)] leading-tight whitespace-nowrap">
             {BRAND.name}
           </h1>
           {showTagline && (

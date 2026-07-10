@@ -3,7 +3,7 @@ import { useRef } from 'react';
 
 const PRINCIPLES = [
   ['01', 'Less friction', 'Capture what matters without turning your day into admin work.'],
-  ['02', 'Visible rhythm', 'See streaks, routines, and focus as a gentle pattern, not a scoreboard.'],
+  ['02', 'Clear overview', 'See streaks, routines, and focus as patterns — not a scoreboard.'],
   ['03', 'Private by default', 'Your workspace stays local, fast, and quiet.'],
 ] as const;
 
@@ -13,6 +13,7 @@ export function PhilosophySection() {
 
   return (
     <section ref={ref} id="philosophy" className="landing-story-section landing-section">
+      <div className="landing-container">
       <div className="landing-editorial-grid">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -42,6 +43,7 @@ export function PhilosophySection() {
             </motion.article>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

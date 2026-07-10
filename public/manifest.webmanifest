@@ -6,8 +6,9 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#040405",
-  "theme_color": "#0e7490",
+  "background_color": "#090a0b",
+  "theme_color": "#0f8aa3",
+  "lang": "en",
   "categories": ["productivity", "health", "lifestyle"],
   "shortcuts": [
     {

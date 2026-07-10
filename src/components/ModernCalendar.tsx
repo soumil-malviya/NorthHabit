@@ -36,7 +36,7 @@ export function ModernCalendar({ selected, onSelect, getMarkers }: ModernCalenda
 
   const today = useMemo(() => new Date(), []);
 
-  const { year, month, cells } = useMemo(() => {
+  const { cells } = useMemo(() => {
     const y = viewDate.getFullYear();
     const m = viewDate.getMonth();
     const first = new Date(y, m, 1);
@@ -48,7 +48,7 @@ export function ModernCalendar({ selected, onSelect, getMarkers }: ModernCalenda
     for (let d = 1; d <= daysInMonth; d++) grid.push(new Date(y, m, d));
     while (grid.length % 7 !== 0) grid.push(null);
 
-    return { year: y, month: m, cells: grid };
+    return { cells: grid };
   }, [viewDate]);
 
   const monthLabel = viewDate.toLocaleDateString(undefined, {
@@ -62,20 +62,13 @@ export function ModernCalendar({ selected, onSelect, getMarkers }: ModernCalenda
 
   return (
     <div className="modern-calendar select-none">
-      <div className="flex items-center justify-between gap-3 mb-6">
-        <button
-          type="button"
-          onClick={() => goMonth(-1)}
-          className="cal-nav-btn"
-          aria-label="Previous month"
-        >
-          <ChevronLeft className="w-5 h-5" />
+      <div className="cal-header">
+        <button type="button" onClick={() => goMonth(-1)} className="cal-nav-btn" aria-label="Previous month">
+          <ChevronLeft className="w-4 h-4" />
         </button>
 
-        <div className="flex-1 text-center">
-          <h3 className="text-lg font-extrabold tracking-tight dark:text-white text-slate-800">
-            {monthLabel}
-          </h3>
+        <div className="cal-header-copy">
+          <h3>{monthLabel}</h3>
           <button
             type="button"
             onClick={() => {
@@ -83,84 +76,48 @@ export function ModernCalendar({ selected, onSelect, getMarkers }: ModernCalenda
               setViewDate(new Date(now.getFullYear(), now.getMonth(), 1));
               onSelect(now);
             }}
-            className="text-[10px] font-bold uppercase tracking-widest text-cyan-500 hover:text-cyan-400 mt-0.5 transition-colors"
+            className="cal-today-link"
           >
-            Jump to today
+            Today
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={() => goMonth(1)}
-          className="cal-nav-btn"
-          aria-label="Next month"
-        >
-          <ChevronRight className="w-5 h-5" />
+        <button type="button" onClick={() => goMonth(1)} className="cal-nav-btn" aria-label="Next month">
+          <ChevronRight className="w-4 h-4" />
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="cal-weekdays">
         {WEEKDAYS.map((wd) => (
-          <div
-            key={wd}
-            className="text-center text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 py-1"
-          >
-            {wd}
-          </div>
+          <div key={wd}>{wd}</div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="cal-grid">
         {cells.map((date, i) => {
           if (!date) {
-            return <div key={`empty-${i}`} className="aspect-square" />;
+            return <div key={`empty-${i}`} className="cal-cell cal-cell--empty" />;
           }
 
           const ds = toDateStr(date);
           const markers = getMarkers(ds);
           const isSelected = isSameDay(date, selected);
           const isToday = isSameDay(date, today);
-          const hasBoth = markers.hasHabit && markers.hasTodo;
 
           return (
             <button
               key={ds}
               type="button"
               onClick={() => onSelect(date)}
-              className={`cal-day aspect-square flex flex-col items-center justify-center rounded-2xl relative transition-all duration-200 ${
-                isSelected
-                  ? 'cal-day-selected'
-                  : isToday
-                    ? 'cal-day-today'
-                    : 'cal-day-default'
+              className={`cal-cell cal-day ${
+                isSelected ? 'cal-day--selected' : isToday ? 'cal-day--today' : ''
               }`}
             >
-              <span
-                className={`text-sm font-bold tabular-nums ${
-                  isSelected ? 'text-white' : 'text-slate-700 dark:text-slate-200'
-                }`}
-              >
-                {date.getDate()}
-              </span>
+              <span className="cal-day-number">{date.getDate()}</span>
               {(markers.hasHabit || markers.hasTodo) && (
-                <span className="flex gap-0.5 mt-1">
-                  {markers.hasHabit && (
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        isSelected ? 'bg-emerald-200' : 'bg-emerald-500'
-                      }`}
-                    />
-                  )}
-                  {markers.hasTodo && (
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        isSelected ? 'bg-cyan-200' : 'bg-cyan-500'
-                      }`}
-                    />
-                  )}
-                  {hasBoth && !isSelected && (
-                    <span className="sr-only">habits and todos</span>
-                  )}
+                <span className="cal-day-dots">
+                  {markers.hasHabit ? <span className="cal-dot cal-dot--habit" /> : null}
+                  {markers.hasTodo ? <span className="cal-dot cal-dot--todo" /> : null}
                 </span>
               )}
             </button>
