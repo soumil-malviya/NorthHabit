@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
-import { UserProfileControls } from '../components/UserProfileControls';
-import { AmbientSettingsPanel } from '../components/ambient/AmbientSettingsPanel';
 import type { AppOutletContext } from '../types/appContext';
 import { 
   Plus, 
@@ -21,7 +19,6 @@ import {
   ArrowUpRight, 
   AlertCircle,
   ListPlus,
-  Settings2,
   type LucideIcon,
 } from 'lucide-react';
 import { CategoryType, FrequencyType, DifficultyType, Habit } from '../types';
@@ -39,7 +36,6 @@ import {
   getCategoryIcon,
 } from '../lib/categoryStyles';
 import { BRAND } from '../constants/brand';
-import { DataPortabilityPanel } from '../components/DataPortabilityPanel';
 import { useLatency } from '../hooks/useLatency';
 import { MinuteDurationInput } from '../components/MinuteDurationInput';
 import { useTodos } from '../hooks/useTodos';
@@ -103,8 +99,7 @@ function MetricTile({
 }
 
 export default function Dashboard() {
-  const { username, setUsername, maxStreak, theme, toggleTheme } =
-    useOutletContext<AppOutletContext>();
+  const { username } = useOutletContext<AppOutletContext>();
   const location = useLocation();
   const network = useLatency();
 
@@ -122,7 +117,6 @@ export default function Dashboard() {
   
   // Mobile declutter expanders
   const [isHeatmapExpanded, setIsHeatmapExpanded] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [deletingHabitId, setDeletingHabitId] = useState<string | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
@@ -481,45 +475,7 @@ export default function Dashboard() {
               Track today’s routines, focus sessions, and open tasks from one overview.
             </p>
           </div>
-          <div className="dashboard-hero-actions">
-            <UserProfileControls
-              username={username}
-              onUsernameChange={setUsername}
-              maxStreak={maxStreak}
-              theme={theme}
-              onToggleTheme={toggleTheme}
-            />
-            <button
-              type="button"
-              onClick={() => setIsSettingsOpen((prev) => !prev)}
-              className={`dashboard-icon-button ${isSettingsOpen ? 'is-active' : ''}`}
-              title="Backup settings"
-              id="settings-toggle-btn"
-              aria-label="Open dashboard settings"
-            >
-              <Settings2 className="w-4 h-4" />
-            </button>
-          </div>
         </header>
-
-      {/* ----------------- COLLAPSIBLE SETTINGS & BACKUP DRAWER ----------------- */}
-      {isSettingsOpen && (
-        <div className="dashboard-panel dashboard-settings-panel animate-entrance" id="settings-drawer">
-          <div className="flex justify-between items-center mb-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">Settings & Personalization</h4>
-            <span className="text-[9px] dark:text-slate-450 text-slate-500 font-mono">Status: LocalStorage Connected</span>
-          </div>
-          <p className="text-xs dark:text-slate-400 text-slate-600 mb-4 leading-relaxed">
-            Configure your display preference or move your full workspace between devices. All your data resides locally on your client device.
-          </p>
-
-          <div className="mb-4">
-            <DataPortabilityPanel />
-          </div>
-
-          <AmbientSettingsPanel theme={theme} />
-        </div>
-      )}
 
       <section className="dashboard-overview-grid" aria-label="Dashboard overview">
         <DashboardPanel className="dashboard-primary-panel" id="tracker-stats-grid">

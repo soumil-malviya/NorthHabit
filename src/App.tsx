@@ -8,6 +8,7 @@ import TodoPage from './pages/TodoPage';
 import CalendarPage from './pages/CalendarPage';
 import PomodoroPage from './pages/PomodoroPage';
 import RemindersPage from './pages/RemindersPage';
+import SettingsPage from './pages/SettingsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import { usePageSeo } from './hooks/usePageSeo';
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="pomodoro" element={<PomodoroPage />} />
         <Route path="reminders" element={<RemindersPage />} />
+        <Route path="settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

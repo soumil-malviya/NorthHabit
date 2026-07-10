@@ -8,7 +8,7 @@ import { SoundscapeProvider } from '../contexts/SoundscapeContext';
 import { SoundscapeMiniPlayer } from './soundscape/SoundscapeMiniPlayer';
 import { QuickActionsMenu } from './QuickActionsMenu';
 import { MotionPage } from './motion/MotionPage';
-import { UserProfileControls } from './UserProfileControls';
+import { AppChrome } from './AppChrome';
 import { OnboardingExperience } from './onboarding/OnboardingExperience';
 import {
   NotificationPermissionBanner,
@@ -50,8 +50,6 @@ export function AppLayout() {
     (permission === 'denied' && prefs.enabled);
 
   const location = useLocation();
-  const isDashboard =
-    location.pathname === '/app' || location.pathname === '/app/';
 
   const maxStreak = useMemo(() => {
     if (habits.length === 0) return 0;
@@ -81,18 +79,9 @@ export function AppLayout() {
           onMobileOpen={() => setMobileOpen(true)}
         />
 
+        <AppChrome />
+
         <main className="app-main selection:bg-cyan-500/25">
-          {!isDashboard && (
-            <div className="flex justify-end mb-4 lg:mb-5">
-              <UserProfileControls
-                username={username}
-                onUsernameChange={setUsername}
-                maxStreak={maxStreak}
-                theme={theme as ThemeMode}
-                onToggleTheme={toggleTheme}
-              />
-            </div>
-          )}
           <NotificationPermissionBanner
             visible={showPermissionBanner}
             permission={permission}

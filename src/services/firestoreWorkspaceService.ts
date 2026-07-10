@@ -94,6 +94,48 @@ let activeSession: SyncSession | null = null;
 let remoteApplying = false;
 let writeQueue: Promise<void> = Promise.resolve();
 
+export type FirestoreConnectionStatus = 'idle' | 'connecting' | 'connected' | 'error';
+
+export interface FirestoreSyncState {
+  status: FirestoreConnectionStatus;
+  lastSyncAt: Date | null;
+  errorMessage: string | null;
+  isActive: boolean;
+}
+
+const defaultSyncState: FirestoreSyncState = {
+  status: 'idle',
+  lastSyncAt: null,
+  errorMessage: null,
+  isActive: false,
+};
+
+let syncState: FirestoreSyncState = { ...defaultSyncState };
+const syncStateListeners = new Set<(state: FirestoreSyncState) => void>();
+
+function emitSyncState() {
+  syncStateListeners.forEach((listener) => listener(syncState));
+}
+
+function updateSyncState(patch: Partial<FirestoreSyncState>) {
+  syncState = { ...syncState, ...patch };
+  emitSyncState();
+}
+
+export function getFirestoreSyncState(): FirestoreSyncState {
+  return syncState;
+}
+
+export function subscribeFirestoreSyncState(
+  listener: (state: FirestoreSyncState) => void,
+): () => void {
+  syncStateListeners.add(listener);
+  listener(syncState);
+  return () => {
+    syncStateListeners.delete(listener);
+  };
+}
+
 function workspaceDoc(uid: string, id: WorkspaceDocId) {
   return doc(db, 'users', uid, 'workspace', id);
 }
@@ -556,6 +598,13 @@ function subscribeToWorkspace(uid: string, onError?: (error: FirestoreError) => 
   return onSnapshot(
     workspaceCollection(uid),
     (snapshot) => {
+      updateSyncState({
+        status: 'connected',
+        lastSyncAt: new Date(),
+        errorMessage: null,
+        isActive: true,
+      });
+
       remoteApplying = true;
       try {
         runWithoutCloudStorageWrites(() => {
@@ -568,7 +617,14 @@ function subscribeToWorkspace(uid: string, onError?: (error: FirestoreError) => 
         remoteApplying = false;
       }
     },
-    onError,
+    (error) => {
+      updateSyncState({
+        status: 'error',
+        errorMessage: error.message,
+        isActive: Boolean(activeSession),
+      });
+      onError?.(error);
+    },
   );
 }
 
@@ -577,6 +633,13 @@ export async function startFirestoreWorkspaceSync(
   onError?: (error: FirestoreError) => void,
 ) {
   stopFirestoreWorkspaceSync();
+
+  updateSyncState({
+    status: 'connecting',
+    lastSyncAt: null,
+    errorMessage: null,
+    isActive: true,
+  });
 
   setCloudStorageWriter((key, value) => writeStorageKeyToCloud(uid, key, value));
 
@@ -592,4 +655,5 @@ export function stopFirestoreWorkspaceSync() {
   activeSession?.unsubscribes.forEach((unsubscribe) => unsubscribe());
   activeSession = null;
   setCloudStorageWriter(null);
+  updateSyncState({ ...defaultSyncState });
 }
