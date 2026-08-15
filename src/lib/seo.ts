@@ -161,6 +161,7 @@ export function applySeoMetadata(metadata: SeoMetadata) {
   setMeta('meta[name="author"]', 'content', BRAND.name);
   setMeta('meta[name="application-name"]', 'content', BRAND.name);
   setMeta('link[rel="canonical"]', 'href', canonical);
+  setMeta('link[rel="image_src"]', 'href', image);
 
   setMeta('meta[property="og:site_name"]', 'content', BRAND.name);
   setMeta('meta[property="og:locale"]', 'content', 'en_US');
@@ -169,6 +170,7 @@ export function applySeoMetadata(metadata: SeoMetadata) {
   setMeta('meta[property="og:description"]', 'content', description);
   setMeta('meta[property="og:url"]', 'content', canonical);
   setMeta('meta[property="og:image"]', 'content', image);
+  setMeta('meta[property="og:image:secure_url"]', 'content', image);
   setMeta('meta[property="og:image:type"]', 'content', 'image/jpeg');
   setMeta('meta[property="og:image:alt"]', 'content', `${BRAND.name} — habit tracker and focus workspace preview`);
   setMeta('meta[property="og:image:width"]', 'content', '1260');
@@ -179,6 +181,7 @@ export function applySeoMetadata(metadata: SeoMetadata) {
   setMeta('meta[name="twitter:title"]', 'content', title);
   setMeta('meta[name="twitter:description"]', 'content', description);
   setMeta('meta[name="twitter:image"]', 'content', image);
+  setMeta('meta[name="twitter:image:src"]', 'content', image);
   setMeta('meta[name="twitter:image:alt"]', 'content', `${BRAND.name} product preview`);
 
   const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim()

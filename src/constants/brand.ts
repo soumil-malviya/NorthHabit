@@ -15,6 +15,6 @@ export const SEO = {
   title: 'NorthHabit — Habit Tracker, To‑Do & Focus Timer',
   description:
     'Track daily habits, manage to‑dos, view your calendar, and grow your focus forest. Offline-first, private, and built for steady progress.',
-  ogImage: '/Main_og-image.jpg',
+  ogImage: '/og-image.jpg',
   siteUrl: 'https://northhabit.app',
 } as const;
