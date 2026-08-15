@@ -175,9 +175,10 @@ export function applySeoMetadata(metadata: SeoMetadata) {
   setMeta('meta[property="og:image:alt"]', 'content', `${BRAND.name} — habit tracker and focus workspace preview`);
   setMeta('meta[property="og:image:width"]', 'content', '1260');
   setMeta('meta[property="og:image:height"]', 'content', '682');
-  setMeta('meta[property="og:logo"]', 'content', absoluteUrl('/favicon.svg'));
+  setMeta('meta[property="og:logo"]', 'content', absoluteUrl('/favicon-32x32.png'));
 
   setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+  setMeta('meta[name="twitter:site"]', 'content', SEO.twitterSite);
   setMeta('meta[name="twitter:title"]', 'content', title);
   setMeta('meta[name="twitter:description"]', 'content', description);
   setMeta('meta[name="twitter:image"]', 'content', image);
@@ -205,7 +206,7 @@ export function applySeoMetadata(metadata: SeoMetadata) {
         '@id': `${absoluteUrl('/')}#organization`,
         name: BRAND.name,
         url: absoluteUrl('/'),
-        logo: absoluteUrl('/favicon.svg'),
+        logo: absoluteUrl('/favicon-32x32.png'),
       },
       {
         '@type': 'SoftwareApplication',

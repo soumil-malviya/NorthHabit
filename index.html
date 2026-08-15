@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -19,17 +18,20 @@
     <meta name="theme-color" content="#0f8aa3" />
     <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="canonical" href="https://northhabit.app/" />
-    <link rel="image_src" href="https://northhabit.app/og-image.jpg" />
+    <link rel="canonical" href="https://northhabit.pages.dev/" />
+    <link rel="image_src" href="https://northhabit.pages.dev/og-image.jpg" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="NorthHabit" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <title>NorthHabit — Habit Tracker, To‑Do & Focus Timer</title>
     <meta property="og:site_name" content="NorthHabit" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://northhabit.app/" />
+    <meta property="og:url" content="https://northhabit.pages.dev/" />
     <meta property="og:title" content="NorthHabit — Habit Tracker, To‑Do & Focus Timer" />
     <meta
       property="og:description"
@@ -37,20 +39,21 @@
     />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image:alt" content="NorthHabit — habit tracker and focus workspace preview" />
-    <meta property="og:image" content="https://northhabit.app/og-image.jpg" />
-    <meta property="og:image:secure_url" content="https://northhabit.app/og-image.jpg" />
+    <meta property="og:image" content="https://northhabit.pages.dev/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://northhabit.pages.dev/og-image.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1260" />
     <meta property="og:image:height" content="682" />
-    <meta property="og:logo" content="https://northhabit.app/favicon.svg" />
+    <meta property="og:logo" content="https://northhabit.pages.dev/favicon-32x32.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@NorthHabit" />
     <meta name="twitter:title" content="NorthHabit — Habit Tracker, To‑Do & Focus Timer" />
     <meta
       name="twitter:description"
       content="Track daily habits, manage to‑dos, and stay focused with a Pomodoro forest."
     />
-    <meta name="twitter:image" content="https://northhabit.app/og-image.jpg" />
-    <meta name="twitter:image:src" content="https://northhabit.app/og-image.jpg" />
+    <meta name="twitter:image" content="https://northhabit.pages.dev/og-image.jpg" />
+    <meta name="twitter:image:src" content="https://northhabit.pages.dev/og-image.jpg" />
     <meta name="twitter:image:alt" content="NorthHabit product preview" />
     <script type="application/ld+json">
       {
@@ -58,19 +61,19 @@
         "@graph": [
           {
             "@type": "WebSite",
-            "@id": "https://northhabit.app/#website",
-            "url": "https://northhabit.app/",
+            "@id": "https://northhabit.pages.dev/#website",
+            "url": "https://northhabit.pages.dev/",
             "name": "NorthHabit",
             "description": "Track daily habits, manage to-dos, view your calendar, and grow your focus forest. Offline-first and private.",
             "inLanguage": "en-US",
-            "publisher": { "@id": "https://northhabit.app/#organization" }
+            "publisher": { "@id": "https://northhabit.pages.dev/#organization" }
           },
           {
             "@type": "Organization",
-            "@id": "https://northhabit.app/#organization",
+            "@id": "https://northhabit.pages.dev/#organization",
             "name": "NorthHabit",
-            "url": "https://northhabit.app/",
-            "logo": "https://northhabit.app/favicon.svg"
+            "url": "https://northhabit.pages.dev/",
+            "logo": "https://northhabit.pages.dev/favicon-32x32.png"
           },
           {
             "@type": "SoftwareApplication",
@@ -78,8 +81,8 @@
             "applicationCategory": "ProductivityApplication",
             "operatingSystem": "Web",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "url": "https://northhabit.app/app",
-            "image": "https://northhabit.app/og-image.jpg",
+            "url": "https://northhabit.pages.dev/app",
+            "image": "https://northhabit.pages.dev/og-image.jpg",
             "isAccessibleForFree": true
           }
         ]
@@ -93,7 +96,12 @@
     />
   </head>
   <body class="light-theme">
-    <div id="root"></div>
+    <div id="root">
+      <main>
+        <h1>NorthHabit — Habit Tracker, To-Do & Focus Timer</h1>
+        <p>Track daily habits, manage to-dos, view your calendar, and grow your focus forest.</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

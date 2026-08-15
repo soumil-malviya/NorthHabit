@@ -16,5 +16,6 @@ export const SEO = {
   description:
     'Track daily habits, manage to‑dos, view your calendar, and grow your focus forest. Offline-first, private, and built for steady progress.',
   ogImage: '/og-image.jpg',
-  siteUrl: 'https://northhabit.app',
+  siteUrl: 'https://northhabit.pages.dev',
+  twitterSite: '@NorthHabit',
 } as const;
