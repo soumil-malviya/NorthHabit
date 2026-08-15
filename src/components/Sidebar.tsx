@@ -74,6 +74,8 @@ export function Sidebar({
         <Menu className="w-5 h-5" />
       </button>
 
+      <div className="sidebar-desktop-slot hidden lg:block" aria-hidden="true" />
+
       <aside className="sidebar-shell group/sb hidden lg:flex" aria-label="Sidebar">
         <div className="sidebar-inner">
           <div className="sidebar-brand">

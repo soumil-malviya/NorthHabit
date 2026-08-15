@@ -23,5 +23,5 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["dist", "node_modules", "intergalactic-ice"]
+  "exclude": ["dist", "node_modules"]
 }
