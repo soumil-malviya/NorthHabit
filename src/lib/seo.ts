@@ -169,9 +169,11 @@ export function applySeoMetadata(metadata: SeoMetadata) {
   setMeta('meta[property="og:description"]', 'content', description);
   setMeta('meta[property="og:url"]', 'content', canonical);
   setMeta('meta[property="og:image"]', 'content', image);
+  setMeta('meta[property="og:image:type"]', 'content', 'image/jpeg');
   setMeta('meta[property="og:image:alt"]', 'content', `${BRAND.name} — habit tracker and focus workspace preview`);
-  setMeta('meta[property="og:image:width"]', 'content', '1200');
-  setMeta('meta[property="og:image:height"]', 'content', '630');
+  setMeta('meta[property="og:image:width"]', 'content', '1260');
+  setMeta('meta[property="og:image:height"]', 'content', '682');
+  setMeta('meta[property="og:logo"]', 'content', absoluteUrl('/favicon.svg'));
 
   setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
   setMeta('meta[name="twitter:title"]', 'content', title);
