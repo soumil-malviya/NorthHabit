@@ -8,6 +8,9 @@
 /og-image.jpg
   Cache-Control: public, max-age=86400
 
+/og-image-1200x630.jpg
+  Cache-Control: public, max-age=86400
+
 /favicon.ico
   Cache-Control: public, max-age=86400
 
