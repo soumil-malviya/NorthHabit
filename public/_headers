@@ -5,5 +5,8 @@
 /og-image.svg
   Cache-Control: public, max-age=86400
 
+/Main_og-image.svg
+  Cache-Control: public, max-age=86400
+
 /favicon.svg
   Cache-Control: public, max-age=86400
