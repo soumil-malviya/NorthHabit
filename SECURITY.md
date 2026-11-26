@@ -43,32 +43,6 @@ by an automated scanner with no demonstrated impact.
   loaded in production builds only, and is not used to profile individual users.
 - Nothing is sold or shared with third parties.
 
-## Secrets
-
-Never commit credentials. Firebase web configuration is read from `VITE_`-
-prefixed environment variables at build time:
-
-```bash
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
-VITE_FIREBASE_MEASUREMENT_ID=
-```
-
-`.env*` files are git-ignored. Admin SDK keys, service-account JSON and private
-tokens must never enter this repository or any client bundle.
-
-## Hardening checklist for contributors
-
-- Keep Firestore security rules least-privilege; never ship `allow read, write: if true`.
-- Validate and sanitise any value rendered from user input.
-- Avoid `dangerouslySetInnerHTML`; if it is unavoidable, sanitise first.
-- Review new dependencies before adding them, and keep the lockfile in sync.
-- Run `npm audit` as part of dependency maintenance.
-
 ## Disclosure
 
 Once a fix is released, the advisory is published with credit to the reporter
