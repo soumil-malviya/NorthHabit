@@ -1,147 +1,75 @@
 # Security Policy
 
-## Supported Versions
+## Supported versions
 
-NorthHabit is currently under active development.
+Security fixes are applied to the latest deployment at
+[northhabit.pages.dev](https://northhabit.pages.dev) and to `main`. Older
+commits and unofficial forks are not supported.
 
-Security updates and patches are only guaranteed for the latest version deployed on:
+## Reporting a vulnerability
 
-https://northhabit.pages.dev
+Please do not open a public issue for a security problem.
 
-Older commits, forks, or unofficial deployments may not receive security updates.
+- Use [GitHub Security Advisories](https://github.com/soumil-malviya/NorthHabit/security/advisories/new)
+  for anything sensitive.
+- Open a regular issue for low-risk findings such as a missing header or a
+  hardening suggestion.
 
-| Version        | Supported |
-| -------------- | --------- |
-| Latest         | ✅         |
-| Older versions | ❌         |
+Include what you can:
 
----
+1. A description of the issue and its impact.
+2. Steps to reproduce, or a minimal proof of concept.
+3. The affected page, route or component.
+4. Browser and OS versions, plus screenshots or logs if useful.
 
-# Reporting a Vulnerability
+You can expect an acknowledgement within a few days. Please allow time for a fix
+before publishing details.
 
-If you discover a security vulnerability, privacy issue, or exploit, please report it responsibly.
+## Scope
 
-Please include:
+In scope: the web application, its PWA build, the service worker, and the
+Firebase configuration shipped in this repository.
 
-* a clear description of the issue
-* reproduction steps
-* affected pages/components
-* potential impact
-* screenshots or logs if applicable
+Out of scope: findings that require a compromised device or browser, social
+engineering, denial of service through bulk traffic, and reports produced only
+by an automated scanner with no demonstrated impact.
 
-## Contact
+## How the app handles data
 
-For responsible disclosure, contact:
+- Habits, tasks, notes and settings are stored locally in the browser first.
+- Cloud sync uses Firebase Authentication and Firestore, and only when the
+  deployment is configured with Firebase credentials.
+- No analytics or advertising SDKs run on user content. Firebase Analytics is
+  loaded in production builds only, and is not used to profile individual users.
+- Nothing is sold or shared with third parties.
 
-* GitHub Issues (preferred for non-sensitive issues)
-* GitHub Security Advisories for sensitive vulnerabilities
+## Secrets
 
-Please avoid publicly disclosing critical vulnerabilities before they are addressed.
-
----
-
-# Security Priorities
-
-NorthHabit prioritizes:
-
-* user privacy
-* minimal data collection
-* secure authentication practices
-* safe local storage handling
-* secure cloud synchronization
-* dependency maintenance
-
----
-
-# Authentication & Data
-
-Planned authentication systems:
-
-* Google Authentication
-* Email Authentication
-
-Future cloud synchronization will use:
-
-* Firebase Authentication
-* Firestore security rules
-
-Sensitive credentials and secrets are never intended to be committed to the repository.
-
-Environment variables should always be stored securely using:
+Never commit credentials. Firebase web configuration is read from `VITE_`-
+prefixed environment variables at build time:
 
 ```bash
-.env
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
 ```
 
-Never expose:
+`.env*` files are git-ignored. Admin SDK keys, service-account JSON and private
+tokens must never enter this repository or any client bundle.
 
-* API keys
-* Firebase admin credentials
-* private tokens
-* authentication secrets
+## Hardening checklist for contributors
 
----
+- Keep Firestore security rules least-privilege; never ship `allow read, write: if true`.
+- Validate and sanitise any value rendered from user input.
+- Avoid `dangerouslySetInnerHTML`; if it is unavoidable, sanitise first.
+- Review new dependencies before adding them, and keep the lockfile in sync.
+- Run `npm audit` as part of dependency maintenance.
 
-# Browser Extension Security (Planned)
+## Disclosure
 
-Future browser extensions for focus-mode website blocking will prioritize:
-
-* minimal permissions
-* transparent behavior
-* local-first functionality
-* user-controlled blocking
-* privacy-safe operation
-
-The extension will never:
-
-* collect browsing history for analytics
-* sell user data
-* inject third-party advertising
-* track unrelated browsing activity
-
----
-
-# Dependency Security
-
-Dependencies should be updated regularly.
-
-Recommended commands:
-
-```bash
-npm audit
-npm audit fix
-```
-
----
-
-# Best Practices for Contributors
-
-Contributors should:
-
-* avoid committing secrets
-* validate user input
-* sanitize dynamic rendering
-* avoid unsafe HTML injection
-* follow least-privilege principles
-* keep dependencies updated
-
----
-
-# Scope
-
-This security policy applies to:
-
-* the NorthHabit web application
-* future PWA builds
-* planned browser extensions
-* official deployments under the project owner
-
-Unofficial forks or modified deployments are outside the scope of this policy.
-
----
-
-# Disclaimer
-
-NorthHabit is currently an independent project under active development.
-
-While reasonable efforts are made to maintain security and privacy, no software can guarantee absolute security.
+Once a fix is released, the advisory is published with credit to the reporter
+unless anonymity is requested.
